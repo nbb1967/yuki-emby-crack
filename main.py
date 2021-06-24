@@ -1,85 +1,51 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # @author: MitsuhaYuki
-import sys
-import os
-import logging
-import tornado.ioloop
-import tornado.httpserver
-from tornado.web import RequestHandler
+import uvicorn
+from fastapi import FastAPI, Request
 
-log = logging.getLogger()
+app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
 
-def setHeader(request):
-    request.set_header("Access-Control-Allow-Origin", "*")
-    request.set_header("Access-Control-Allow-Headers", "*")
-    request.set_header("Access-Control-Allow-Method", "*")
-    request.set_header("Access-Control-Allow-Credentials", "true")
+@app.get('/')
+def get_main():
+    return {'status': 200, 'msg': 'emby validation server successfully start'}
 
 
-class MainHandler(RequestHandler):
-    def get(self):
-        self.write('emby validation server successfully start')
-
-    def post(self):
-        self.get()
+@app.get('/admin/service/registration/validateDevice')
+@app.post('/admin/service/registration/validateDevice')
+def post_validate_device():
+    return {"cacheExpirationDays": 365, "message": "Device Valid", "resultCode": "GOOD"}
 
 
-class ValidateDevice(RequestHandler):
-    def get(self):
-        setHeader(self)
-        data = {"cacheExpirationDays": 365, "message": "Device Valid", "resultCode": "GOOD"}
-        self.write(data)
-
-    def post(self):
-        self.get()
+@app.get('/admin/service/registration/validate')
+@app.post('/admin/service/registration/validate')
+def post_validate():
+    return {"featId": "", "registered": True, "expDate": "2099-01-01", "key": ""}
 
 
-class Validate(RequestHandler):
-    def get(self):
-        setHeader(self)
-        data = {"featId": "", "registered": True, "expDate": "2099-01-01", "key": ""}
-        self.write(data)
-
-    def post(self):
-        self.get()
+@app.get('/admin/service/registration/getStatus')
+@app.post('/admin/service/registration/getStatus')
+def post_get_status():
+    return {"deviceStatus": "0", "planType": "Lifetime", "subscriptions": {}}
 
 
-class GetStatus(RequestHandler):
-    def get(self):
-        setHeader(self)
-        data = {"deviceStatus": "0", "planType": "Lifetime", "subscriptions": {}}
-        self.write(data)
-
-    def post(self):
-        self.get()
-
-
-def make_app():
-    return tornado.web.Application([
-        (r"/", MainHandler),
-        (r"/admin/service/registration/validateDevice", ValidateDevice),
-        (r"/admin/service/registration/validate", Validate),
-        (r"/admin/service/registration/getStatus", GetStatus)
-    ])
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Allow-Method"] = "*"
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    return response
 
 
-if __name__ == "__main__":
-    # detect if running in bundle resource mode
-    if getattr(sys, 'frozen', False):
-        base_path = sys._MEIPASS
-    else:
-        base_path = os.path.abspath(".")
-
-    crt_file = base_path + "/cert/server.crt"
-    key_file = base_path + "/cert/server.key"
-
-    # load ssl license and create server
-    app = make_app()
-    http_server = tornado.httpserver.HTTPServer(app, ssl_options={
-        "certfile": os.path.join(os.path.abspath("."), crt_file),
-        "keyfile": os.path.join(os.path.abspath("."), key_file),
-    })
-    http_server.listen(443)
-    tornado.ioloop.IOLoop.current().start()
+if __name__ == '__main__':
+    uvicorn.run(
+        app,
+        host="127.0.0.1",
+        port=443,
+        workers=1,
+        ssl_certfile='./cert/server.crt',
+        ssl_keyfile='./cert/server.key'
+    )

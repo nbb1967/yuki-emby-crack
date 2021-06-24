@@ -1,15 +1,25 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+
 block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['./yuki-emby-crack'],
+             pathex=['F:\\Repository\\repo_pycharm\\yuki-emby-crack'],
              binaries=[],
-             datas=[
-                ('./cert/','cert')
+             datas=[],
+             hiddenimports=[
+                'uvicorn.logging',
+                'uvicorn.loops',
+                'uvicorn.loops.auto',
+                'uvicorn.protocols',
+                'uvicorn.protocols.http',
+                'uvicorn.protocols.http.auto',
+                'uvicorn.protocols.websockets',
+                'uvicorn.protocols.websockets.auto',
+                'uvicorn.lifespan',
+                'uvicorn.lifespan.on',
              ],
-             hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],

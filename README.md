@@ -22,11 +22,9 @@ Windows简单白嫖Emby会员
 
 ## 使用方法
 
-### 1.创建激活服务器(Windows)
+### 1. 解压缩文件
 
-#### 解压缩文件
-
-从Release页面下载`dist.zip`，解压缩至`C:\Users\<UserName>\Documents\dist`(即文档文件夹)
+在[`release`](https://github.com/MitsuhaYuki/yuki-emby-crack/releases) 页面下载`dist.zip`，解压缩至`C:\Users\<UserName>\Documents\dist`(即文档文件夹)
 
 ![i-dist.png](images/i-unzip.png)
 
@@ -34,7 +32,7 @@ Windows简单白嫖Emby会员
 
 > 注意：此处的程序解压缩路径可以随意修改，不过只能放在C盘个人文件夹或除C盘以外的其他磁盘分区，否则可能会因为权限不足而无法启动
 
-#### 设置开机自启动
+### 2. 设置开机自启动
 
 右键`main.exe`，选择`创建快捷方式`，将得到的`main.exe - 快捷方式`复制到`C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp`目录
 
@@ -42,54 +40,26 @@ Windows简单白嫖Emby会员
 
 ![i-autostart.png](images/i-autostart-2.png)
 
-### 2.激活Windows客户端
+> 注意：完成后设置开机自启动后请先双击`main.exe`来完成首次启动！
 
-Windows客户端包括**Emby Theater**、**Emby Web Control**(即浏览器页面)和**Emby Server**(Emby Server本身也是需要激活的客户端)
-
-以下步骤请在安装客户端的电脑上操作(可以与激活服务器是同一台电脑)
-
-#### 修改Host指向
+### 3. 修改Host指向
 
 进入`C:\Windows\System32\drivers\etc`目录，修改hosts文件，**在文件末尾增加**如下内容：
 
 ```
-激活服务器IP mb3admin.com
+127.0.0.1 mb3admin.com
 
 ```
 
-其中激活服务器的IP填上一步运行`main.exe`的机器的**局域网**IP，如：`192.168.1.1 mb3admin.com`，如果你的激活服务器与被激活的客户端在同一台机器上，则填写：`127.0.0.1 mb3admin.com`
+> 注意此处`127.0.0.1 mb3admin.com`后面需要加一个空行，不然有可能会出现修改不生效的神奇问题
 
-> 注意此处`激活服务器IP mb3admin.com`后面需要加一个空行，不然有可能会出现修改不生效的神奇问题
-
-#### 安装证书
+### 4. 安装证书
 
 在[`release`](https://github.com/MitsuhaYuki/yuki-emby-crack/releases) 页面下载和`dist.zip`一同发布的`guomi.cer`证书文件，双击证书文件并选择`安装证书`，在弹出的窗口中依次选择`当前用户`-`将所有证书都放入下列存储`，单击`浏览`并选择到`受信任的根证书颁发机构(如下图)`，然后依次单击`确定`-`下一步`-`完成`来完成证书的安装
 
 ![i-installcert](images/i-installcert.png)
 
 至此重新启动位于本机的EmbyServer你会发现小金标应该已经有了，如果没有出现的话可以到Emby控制台中的Emby Premiere里面随便输入任意字符点击验证即可
-
-### 3.激活Android客户端
-
-Android客户端包括**Emby For Android**、**Emby TV**和**Emby Web Control**(即浏览器页面)
-
-#### 修改Host指向
-
-安装`Hosts Go`，按下列步骤进行修改
-
-| 进入主页面，点击Hosts Editor             | 点击右上角+                              | IP输入激活服务器的IP                     | 点击Add Domain添加记录                   | 回到首页打开Host Change Switch，点击Start开启修改 |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ------------------------------------------------- |
-| ![i-android-05](images/i-android-05.jpg) | ![i-android-06](images/i-android-06.jpg) | ![i-android-07](images/i-android-07.jpg) | ![i-android-08](images/i-android-08.jpg) | ![i-android-09](images/i-android-09.jpg)          |
-
-#### 安装证书
-
-| 将`guomi.cer`传输到Android设备 | 点击`guomi.cer`进行安装 | 名字可以随便，其他按图选择，然后点击OK | 当系统提示`xxx is installed`即代表安装完成 |
-| ---- | ---- | ---- | ---- |
-|![i-android-01](images/i-android-01.jpg)|![i-android-02](images/i-android-02.jpg)|![i-android-03](images/i-android-03.jpg)|![i-android-04](images/i-android-04.jpg)|
-
-> 注意：TV用户若安装证书时没有弹出`Certificate Installer`(证书安装器)，则可能证明你的TV不支持证书安装。作为替代，你可以尝试使用Kodi + Emby插件来实现对Emby的完美访问
-
-至此安卓客户端激活完成，手机访问Emby Web Control应该出现小金标，如果没有出现的话可以到Emby控制台中的Emby Premiere里面随便输入任意字符点击验证即可
 
 ## 常见问题
 
@@ -131,11 +101,11 @@ Android客户端包括**Emby For Android**、**Emby TV**和**Emby Web Control**(
 
 ### 关于本项目？
 
-项目基于Python tornado框架，寥寥几行无需多讲，无非是加载证书创建web服务器返回一个已激活的信息而已。搞这个东西的初衷也只是为了在windows上的激活更简单一些，经测试可以激活安装在windows上的Emby Server/Emby Theater，原理基于[白嫖一下Emby](https://imrbq.cn/exp/emby_hack.html) 。如非必要本项目一般不会再次更新，以及**不会**提供技术支持
+项目基于Python FastAPI框架，寥寥几行无需多讲，无非是加载证书创建web服务器返回一个已激活的信息而已。搞这个东西的初衷也只是为了在windows上的激活更简单一些，经测试可以激活安装在windows上的Emby Server/Emby Theater，原理基于[白嫖一下Emby](https://imrbq.cn/exp/emby_hack.html) 。如非必要本项目一般**不会再次更新**，以及**不会提供技术支持**
 
 ### 自行编译？
 
-当然可以，使用pycharm加载该项目，在`terminal`执行
+当然可以，项目使用Python3.8.9，你可以使用pycharm加载该项目，在`terminal`执行
 
 ```shell
 pip install -r requirements.txt
@@ -144,7 +114,7 @@ pip install -r requirements.txt
 然后运行执行命令
 
 ```shell
-pyinstaller -F -w main.spec
+pyinstaller -F main.spec -w --clean
 ```
 
 然后你就能在`dist`目录找到编译好的exe文件了，但是还是要配合证书使用
@@ -157,9 +127,15 @@ pyinstaller -F -w main.spec
 
 我也是偶然发现这个问题，实际上并不是说不能同时使用代理，翻找一下你使用的插件，只需要让你的插件不再代理`mb3admin.com`这个网址即可，例如我使用的Clash for Windows中在Settings里面就有设置系统代理bypass选项，只需要加一行`  - mb3admin.com`即可，如果你没在浏览器页面中看到小金标，看看是不是用了SwitchyOmega或者其他类似插件，如果有的话将`mb3admin.com`加入`不代理的地址列表`，然后刷新页面就能看到小金标啦
 
+### 关于本项目的扩展
+
+从`附加问题-关于本项目`中，有提到这个项目的工作原理。实际上所有emby大家族产品都是同样的激活原理，即向特定激活网址发送请求验证当前客户端的激活信息，而本项目就是充当那个“特定激活网址”的角色。
+
+所以在Windows上，可以通过开放防火墙443端口的方式，将此项目暴露至局域网环境，通过修改同一局域网内其他设备的host即可激活同一局域网内任一设备上的emby程序，具体操作可以自己搜索，此处不再赘述。
+
 ## 关于Linux根证书导入失败问题
 
-**此部分教程由 [godvmxi](https://github.com/godvmxi) 提供，在此表示感谢**
+**此部分教程由 [godvmxi](https://github.com/godvmxi) 编写，在此表示感谢**
 
 ### 根证书自签
 发现ubuntu下Ca证书一直导入失败，干脆自己签发了一个，参考[OpenSSL 自签 CA 及 SSL 证书](https://2heng.xin/2018/12/16/your-own-ca-with-openssl/)
@@ -269,5 +245,4 @@ selfsign_host.sh mb3admin.com
 然后可以用浏览器打开https://mb3admin.com 验证是否有错误
 
 ![Chrome:11](/images/i-chrome-6.png)
-
 
