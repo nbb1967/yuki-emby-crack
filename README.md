@@ -8,7 +8,7 @@ Windows简单白嫖Emby会员
 
 原理出自这篇博客：[白嫖一下Emby](https://imrbq.cn/exp/emby_hack.html) ，有兴趣可以去看看
 
-代码实现基于tornado+pyinstaller
+代码实现基于fastapi+pyinstaller
 
 ## 使用效果
 
