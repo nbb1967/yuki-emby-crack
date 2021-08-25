@@ -8,17 +8,17 @@ Windows简单白嫖Emby会员
 
 原理出自这篇博客：[白嫖一下Emby](https://imrbq.cn/exp/emby_hack.html) ，有兴趣可以去看看
 
-代码实现基于fastapi+pyinstaller
+代码实现基于tornado+pyinstaller
 
 ## 使用效果
 
 > Emby Server
 
-![i-demo-1](/images/i-demo-1.png)
+![i-demo-1](images/i-demo-1.png)
 
 > Emby Theater
 
-![i-demo-2](/images/i-demo-2.png)
+![i-demo-2](images/i-demo-2.png)
 
 ## 使用方法
 
@@ -69,7 +69,7 @@ Windows简单白嫖Emby会员
 
 打开任务管理器，往下找，如果程序正常启动的话你应当能看到标有`main.exe`字样的进程
 
-![i-step1](/images/i-step1.png)
+![i-step1](images/i-step1.png)
 
 如果没有的话代表你设置自启动的那一步存在问题，或者如果你想要手动启动的话请手动双击`main.exe`来启动程序
 
@@ -77,7 +77,7 @@ Windows简单白嫖Emby会员
 
 按下`win`+`r`键输入`cmd`并回车来打开cmd窗口，输入`ping mb3admin.com`，应当能得到如下结果
 
-![i-step2](/images/i-step2.png)
+![i-step2](images/i-step2.png)
 
 如果结果不是`来自 127.0.0.1 的回复`字样则代表你的hosts文件设置存在问题，请按照教程重新设定host文件
 
@@ -85,11 +85,11 @@ Windows简单白嫖Emby会员
 
 如果以上检查都没有问题，则打开浏览器访问[`https://mb3admin.com/`](https://mb3admin.com/) ，如果出现错误点击`高级`-`继续访问`，此时应该出现如下内容
 
-![i-step3-1](/images/i-step3-1.png)
+![i-step3-1](images/i-step3-1.png)
 
 如果没有出现对应内容且STEP1和2都没有出现问题，请检查你是不是使用了某些代理插件，关闭它们之后重启浏览器再试一次。如果依旧存在问题可以手动进入`Windows设置`-`网络和Internet`-`代理`，将`使用代理服务器`设为关闭，之后重启浏览器再试一次
 
-![i-step3-2](/images/i-step3-2.png)
+![i-step3-2](images/i-step3-2.png)
 
 #### STEP4：还有问题？
 
@@ -236,13 +236,13 @@ selfsign_host.sh mb3admin.com
 
 依次点击设置->隐私设置与安全性->安全->安全证书管理->授权机构->导入
 
-![Chrome:1-3](/images/i-chrome-1.png)
-![Chrome:4](/images/i-chrome-2.png)
-![Chrome:5-6](/images/i-chrome-3.png)
-![Chrome:7-8](/images/i-chrome-4.png)
-![Chrome:9-10](/images/i-chrome-5.png)
+![Chrome:1-3](images/i-chrome-1.png)
+![Chrome:4](images/i-chrome-2.png)
+![Chrome:5-6](images/i-chrome-3.png)
+![Chrome:7-8](images/i-chrome-4.png)
+![Chrome:9-10](images/i-chrome-5.png)
 
 然后可以用浏览器打开https://mb3admin.com 验证是否有错误
 
-![Chrome:11](/images/i-chrome-6.png)
+![Chrome:11](images/i-chrome-6.png)
 
