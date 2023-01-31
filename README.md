@@ -146,112 +146,80 @@ netsh advfirewall firewall add rule name=”443 TCP for yuki-emby-crack” proto
 
 **此部分教程由 [godvmxi](https://github.com/godvmxi) 编写，在此表示感谢**
 
-### Выпуск собственных сертификатов
-发现ubuntu下Ca证书一直导入失败，干脆自己签发了一个，参考[OpenSSL 自签 CA 及 SSL 证书](https://2heng.xin/2018/12/16/your-own-ca-with-openssl/)
+### Выпуск собственных сертификатов в Windows
 
-**关于证书的信任问题，我直接写了个一个小脚本，你自己签发就可以了，window下，自己参考着命令改就行了**
+Загружаем и устанавливаем последний [Win64 OpenSSL Light](https://slproweb.com/products/Win32OpenSSL.html)  
+Запускаем `cmd` от админа
 
-#### 检查openssl设置
-创建或者检查/etc/ssl/openssl.cnf
-
-```bash
-
-[ CA_default ]
- 
-dir             = ./demoCA              # Where everything is kept
-certs           = $dir/certs            # Where the issued certs are kept
-crl_dir         = $dir/crl              # Where the issued crl are kept
-database        = $dir/index.txt        # database index file.
-new_certs_dir   = $dir/newcerts         # default place for new certs.
-certificate     = $dir/cacert.pem       # The CA certificate
-serial          = $dir/serial           # The current serial number
-crlnumber       = $dir/crlnumber        # the current crl number
-crl             = $dir/crl.pem          # The current CRL
-private_key     = $dir/private/cakey.pem# The private key
-RANDFILE        = $dir/private/.rand    # private random number file
+переходим в каталог с `openssl.exe:`
 
 ```
-
-#### 签发自定义Ca
-打开root.conf 更改你感兴趣的地方,然后运行./selfsign_ca.sh，一路回车确定完成
-```bash
-./selfsign_ca.sh
-
-初始化Ca目录
-
-
-生成 CA 根密钥
-
-Generating RSA private key, 2048 bit long modulus (2 primes)
-.............................+++++
-...+++++
-e is 65537 (0x010001)
-
-自签发 CA 根证书
-
-You are about to be asked to enter information that will be incorporated
-into your certificate request.
-What you are about to enter is what is called a Distinguished Name or a DN.
-There are quite a few fields but you can leave some blank
-For some fields there will be a default value,
-If you enter '.', the field will be left blank.
------
-Country Name (2 letter code) [CN]:
-State or Province Name (full name) [Shanghai]:
-Locality Name (eg, city) [Shanghai]:
-Organization Name (eg, company) [Mashiro LLC]:
-Common Name (e.g. server FQDN or YOUR name) [Mashiro Internet Fake Authority CA]:
-
-重命名ca, pem == crt in linux
-
-'./demoCA/private/cakey.pem' -> './demoCA/private/cakey.crt'
-
-Ca目录
-
-demoCA/
-├── cacert.pem
-├── index.txt
-├── newcerts
-├── private
-│   ├── cakey.crt
-│   └── cakey.pem
-└── serial
-
-2 directories, 5 files
-
+cd C:\Program Files\OpenSSL-Win64\bin
 ```
 
-#### 建立配置文件
-进入到sign目录，建立一个你对应的域名目录,并复制server.conf到对应目录,修改对应条目
-```bash
-mkdir mb3admin.com
-cp server.cf mb3admin.com/server.conf
+создаем папки для сертификатов:
+
 ```
-更新下列参数
-```bash
-commonName_default          = *.mb3admin.com
-DNS.1   = *.mb3admin.com
-DNS.2   = mb3admin.com
+md root cert code
 ```
-#### 生成根证书
-```bash
-selfsign_host.sh mb3admin.com
-````
-####  证书格式的转换
 
-这里我用的linux，格式一样，如果遇到不一致，可以参考如下解决[证书格式转换DER，PEM等](https://blog.csdn.net/xiangguiwang/article/details/76400805/)
+создаем корневой ключ (задаем и повторяем пароль корневого ключа (он не отображается - это нормально)):
 
-### 使用 Chrome 导入根证书
+```
+openssl genrsa -aes256 -out root/frca.key 4096
+```
 
-依次点击设置->隐私设置与安全性->安全->安全证书管理->授权机构->导入
+создаем сертификат корневого центра сертификации (подтверждаем паролем корневого ключа):
 
-![Chrome:1-3](images/i-chrome-1.png)
-![Chrome:4](images/i-chrome-2.png)
-![Chrome:5-6](images/i-chrome-3.png)
-![Chrome:7-8](images/i-chrome-4.png)
-![Chrome:9-10](images/i-chrome-5.png)
+```
+openssl req -key root/frca.key -new -x509 -days 7306 -sha256 -subj "/CN=Fake Root CA for Emby" -addext "basicConstraints = CA:TRUE, pathlen:0" -addext "keyUsage = keyCertSign" -out root/frca.crt
+```
 
-然后可以用浏览器打开https://mb3admin.com 验证是否有错误
+создаем ключ сервера (без пароля):
 
-![Chrome:11](images/i-chrome-6.png)
+```
+openssl genrsa -out cert/server.key 4096
+```
+
+создаем сертификат сервера: 
+
+```
+openssl req -key cert/server.key -new -x509 -days 3653 -sha256 -CA root/frca.crt -CAkey root/frca.key -subj "/CN=mb3admin.com" -addext "basicConstraints = CA:FALSE" -addext "keyUsage = digitalSignature,keyEncipherment,dataEncipherment" -addext "extendedKeyUsage = serverAuth, clientAuth" -addext "subjectAltName=DNS:*.mb3admin.com,DNS:mb3admin.com" -out cert/server.crt
+```
+
+создаем ключ для подписания кода (задаем и повторяем пароль корневого ключа):
+
+```
+openssl genrsa -aes256 -out code/codesign.key 4096
+```
+
+создаем сертификат подписания кода (подтверждаем паролем ключа подписания кода и паролем корневого ключа):
+
+```
+openssl req -key code/codesign.key -new -x509 -days 3653 -sha256 -CA root/frca.crt -CAkey root/frca.key -subj "/CN=Fake Code Signing for Emby" -addext "basicConstraints = CA:FALSE" -addext "keyUsage = digitalSignature" -addext "extendedKeyUsage = codeSigning" -out code/codesign.crt
+```
+
+извлекаем `PFX` для подписания приложения (подтверждаем паролем ключа подписания кода, задаем и повторяем пароль для экспорта в `PFX`):
+
+```
+openssl pkcs12 -export -out code/codesign.pfx -inkey code/codesign.key -in code/codesign.crt
+```
+
+Забираем из папки `root` `frca.crt` - сертификат вашего нового фейкового корневого центра сертификации и устанавливаем его для текущего пользователя в доверенные корневые центры сертификации
+Забираем целиком папку `cert` с файлами `server.crt` и `server.key` - это ваш новый сертификат и ключ фейкового сервера активации - помещаем папку `cert` рядом с `main.exe`
+
+### Цифровая подпись main.exe
+
+Устанавливаем [Windows 10 SDK](https://developer.microsoft.com/ru-ru/windows/downloads/windows-sdk/): только `App Certification Kit`  
+Добавляем расположение `signtools` в `PATH` `C:\Program Files (x86)\Windows Kits\10\App Certification Kit`  
+Копируем `main.exe` в папку `code`
+
+
+Подписываем main.exe (предварительно заменив <PASSWORD_PFX> на пароль PFX):
+
+```
+signtool sign /f code/codesign.pfx /p <PASSWORD_PFX> /t http://timestamp.digicert.com /fd SHA256 code/main.exe
+```
+
+Из папки `code` забираем подписанный `main.exe`
 
