@@ -141,10 +141,7 @@ netsh advfirewall firewall add rule name=”443 TCP for yuki-emby-crack” proto
 ```
  <LAN_IP> mb3admin.com
 ```
-
-## 关于Linux根证书导入失败问题
-
-**此部分教程由 [godvmxi](https://github.com/godvmxi) 编写，在此表示感谢**
+> Аналогично, если это нужно, можно организовать проброс порта и в сеть Интернет... 
 
 ### Выпуск собственных сертификатов в Windows
 
