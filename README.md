@@ -211,7 +211,7 @@ openssl pkcs12 -export -out code/codesign.pfx -inkey code/codesign.key -in code/
 ### Цифровая подпись main.exe
 
 Устанавливаем [Windows 10 SDK](https://developer.microsoft.com/ru-ru/windows/downloads/windows-sdk/): только `App Certification Kit`  
-Добавляем расположение `signtools` в `PATH` `C:\Program Files (x86)\Windows Kits\10\App Certification Kit`  
+Добавляем расположение `signtool` в `PATH` `C:\Program Files (x86)\Windows Kits\10\App Certification Kit`  
 Копируем `main.exe` в папку `code`
 
 
