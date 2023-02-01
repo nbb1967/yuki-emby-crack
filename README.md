@@ -1,4 +1,4 @@
-# yuki-emby-crack
+# yuki-emby-crack ![mb50](images/mb50.png)
 
 ## Об этом проекте
 Этот репозиторий является ответвлением проекта MitsuhaYuki [yuki-emby-crack](https://github.com/MitsuhaYuki/yuki-emby-crack), служит целям перевода документации программы на русский язык, популяризации Emby Media Server в русскоязычной среде, актуализации "сертификатов для ленивых", и :warning: **НЕ СОДЕРЖИТ ИЗМЕНЕНИЙ В КОДЕ ПРОГРАММЫ!**
@@ -11,11 +11,11 @@
 
 ## Результат
 
-> Активированный браузер на Windows
+> Активированный браузер на `Windows` с золотым значком `Emby Premiere`
 
-![i-demo-1](images/i-demo-1.png)
+![i-demo-3](images/i-demo-3.png)
 
-> Просмотр эфира (Premiere-функция) на Emby Theater в Windows
+> Просмотр эфира (функция `Emby Premiere`) на `Emby Theater` в `Windows`
 
 ![i-demo-4](images/i-demo-4.jpg)
 
