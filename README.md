@@ -17,7 +17,7 @@
 
 > Активированный Emby Theater на Windows
 
-![i-demo-2](images/i-demo-2.png)
+![i-demo-3](images/i-demo-3.png)
 
 ## Установка
 
