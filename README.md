@@ -1,4 +1,4 @@
-# yuki-emby-crack ![mb50](images/mb50.png)
+# yuki-emby-crack <img src="images/mb50.png" alt="mb50" style="zoom:50%;" /> 
 
 ## Об этом проекте
 Этот репозиторий является ответвлением проекта MitsuhaYuki [yuki-emby-crack](https://github.com/MitsuhaYuki/yuki-emby-crack), служит целям перевода документации программы на русский язык, популяризации Emby Media Server в русскоязычной среде, актуализации "сертификатов для ленивых", и :warning: **НЕ СОДЕРЖИТ ИЗМЕНЕНИЙ В КОДЕ ПРОГРАММЫ!**
