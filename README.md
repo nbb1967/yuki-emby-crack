@@ -15,9 +15,9 @@
 
 ![i-demo-1](images/i-demo-1.png)
 
-> Активированный Emby Theater на Windows
+> Просмотр эфира (Premiere-функция) на Emby Theater в Windows
 
-![i-demo-3](images/i-demo-3.png)
+![i-demo-4](images/i-demo-4.jpg)
 
 ## Установка
 
