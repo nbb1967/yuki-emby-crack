@@ -11,11 +11,11 @@
 
 ## Результат
 
-> Активированный браузер на `Windows` с золотым значком `Emby Premiere`
+> Активированный браузер в `Windows` с золотым значком `Emby Premiere`
 
 ![i-demo-3](images/i-demo-3.png)
 
-> Просмотр эфира (функция `Emby Premiere`) на `Emby Theater` в `Windows`
+> Просмотр эфира (функция `Emby Premiere`) в `Emby Theater` в `Windows`
 
 ![i-demo-4](images/i-demo-4.jpg)
 
