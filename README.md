@@ -167,13 +167,13 @@ openssl req -key root/frca.key -new -x509 -days 7306 -sha256 -subj "/CN=Fake Roo
 openssl genrsa -out cert/server.key 4096
 ```
 
-создаем сертификат сервера: 
+создаем сертификат сервера (подтверждаем паролем корневого ключа): 
 
 ```
 openssl req -key cert/server.key -new -x509 -days 3653 -sha256 -CA root/frca.crt -CAkey root/frca.key -subj "/CN=mb3admin.com" -addext "basicConstraints = CA:FALSE" -addext "keyUsage = digitalSignature,keyEncipherment,dataEncipherment" -addext "extendedKeyUsage = serverAuth, clientAuth" -addext "subjectAltName=DNS:*.mb3admin.com,DNS:mb3admin.com" -out cert/server.crt
 ```
 
-создаем ключ для подписания кода (задаем и повторяем пароль корневого ключа):
+создаем ключ для подписания кода (задаем и повторяем пароль ключа подписания кода):
 
 ```
 openssl genrsa -aes256 -out code/codesign.key 4096
